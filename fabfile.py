@@ -8,6 +8,8 @@
 from fabric.api import *
 import time
 import os
+import random
+import string
 
 
 env.hosts = ['localhost']
@@ -171,6 +173,15 @@ def setup_services_novenv():
 
 def setup_mosquitto():
     """ Build and Install Mosquitto """
+    passwd=''.join(random.choice(string.ascii_letters + string.digits) for i in range(10))
+    hacfg="""
+mqtt:
+  broker: 127.0.01
+  port: 1883
+  client_id: home-assistant-1
+  username: hass
+  password: %s
+""" % passwd
     with cd("/tmp"):
         sudo("curl -O https://libwebsockets.org/git/libwebsockets/snapshot/libwebsockets-1.4-chrome43-firefox-36.tar.gz")
         sudo("tar xvf libwebsockets*")
@@ -189,6 +200,11 @@ def setup_mosquitto():
                         sudo("make install")
                         with cd("/etc/mosquitto"):
                             put("mosquitto.conf", "mosquitto.conf", use_sudo=True)
+                            sudo("mkdir /var/lib/mosquitto")
+                            sudo("chown mosquitto:/var/lib/mosquitto")
+                            sudo("touch pwfile")
+                            sudo("sudo mosquitto_passwd -b pwfile hass %s" % passwd)
+                            fabric.contrib.files.append("/home/hass/configuration.yaml", hacfg, use_sudo=True)
 
 def setup_homeassistant():
     """ Activate Virtualenv, Install Home-Assistant """
