@@ -75,8 +75,7 @@ fi
 
 sudo /usr/bin/pip install fabric
 
-git clone https://github.com/home-assistant/fabric-home-assistant.git
-
+git clone --branch configmqtt https://github.com/americanwookie/fabric-home-assistant.git
 
 ( cd /home/$me/fabric-home-assistant && fab deploy -H localhost 2>&1 | tee installation_report.txt )
 exit
