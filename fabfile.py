@@ -6,6 +6,7 @@
 
 # Import Fabric's API module
 from fabric.api import *
+import fabric.contrib.files
 import time
 import os
 import random
@@ -201,7 +202,7 @@ mqtt:
                         with cd("/etc/mosquitto"):
                             put("mosquitto.conf", "mosquitto.conf", use_sudo=True)
                             sudo("mkdir /var/lib/mosquitto")
-                            sudo("chown mosquitto:/var/lib/mosquitto")
+                            sudo("chown mosquitto: /var/lib/mosquitto")
                             sudo("touch pwfile")
                             sudo("sudo mosquitto_passwd -b pwfile hass %s" % passwd)
                             fabric.contrib.files.append("/home/hass/configuration.yaml", hacfg, use_sudo=True)
@@ -286,11 +287,11 @@ def deploy():
     ## Create VirtualEnv ##
     create_venv()
 
-    ## Build and Install Mosquitto ##
-    setup_mosquitto()
-
     ## Activate venv, install Home-Assistant ##
     setup_homeassistant()
+
+    ## Build and Install Mosquitto ##
+    setup_mosquitto()
 
     ## Activate venv, build and install python-openzwave ##
     setup_openzwave()
