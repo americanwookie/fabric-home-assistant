@@ -57,5 +57,10 @@ To launch the OZWCP webapp:
   
 *don't check the USB box regardless of using a USB based device*
 
+To configure mosquitto to work with Home Assistant using a random password:
+
+* Login to Raspberry Pi `ssh pi@your_raspberry_pi_ip`
+* Chage to the AiO directory: `cd /home/pi/fabric-home-assistant`
+* Run the mqtt auto-configurator: ./add-mqtt-user.sh
 
 *Windows Users* - Please note that after running the installer, you will need to modify settings allowing you to "switch users" to edit your configuration files. The needed change within WinSCP is: Environment -> SCP/Shell -> Shell and set it to `sudo su -`.
