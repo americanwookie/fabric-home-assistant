@@ -9,7 +9,7 @@ sudo mosquitto_passwd -b /etc/mosquitto/pwfile hass $passwd
 echo "Adding mqtt configuration section to configuration.yaml"
 cat <<EOF | sudo tee -a ~hass/.homeassistant/configuration.yaml >/dev/null
 mqtt:
-  broker: 127.0.01
+  broker: 127.0.0.1
   port: 1883
   client_id: home-assistant-1
   username: hass
